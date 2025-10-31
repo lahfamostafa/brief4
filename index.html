@@ -50,8 +50,8 @@
         
         <div id="resultat" class="grid gap-1 justify-center items-center mt-10">
           <div id="resultC"></div>
-          <div class="px-5 bg-green-600 rounded-t-lg p-2 w-xl ">
-            <h2 class="text-white"><span class="font-bold ">Simulation de prêt</span> <br>Renseignez les informations pour calculer vos mensualités</h2>
+          <div class="px-5 bg-green-600 rounded-t-lg p-5 w-xl ">
+            <h2 class="text-white"><span class="font-bold ">Récapitulatif du prêt</span></h2>
           </div>
           <div class="grid shadow-2xl gap-9 justify-center items-center p-10 rounded-b-lg w-xl">
             
@@ -65,7 +65,7 @@
             <input  class="px-2 py-1  rounded-md float-end text-right focus:outline-none" id="total" type="text" readonly></div>
 
             <div><label>% Taux d'intérêt appliqué</label>
-            <input  class="px-2 py-1  rounded-md float-end text-right focus:outline-none" id="TIA" type="text" readonly></div>
+            <input  class="text-xl font-medium text-red-700  px-2 py-1  rounded-md float-end text-right focus:outline-none" id="TIA" type="text" readonly></div>
           </div>
   
       </div>
@@ -113,7 +113,7 @@
       document.getElementById('mensuel').value= mensualite.toFixed(2) + " DH";
       document.getElementById('interet').value= totalInteret.toFixed(2) + " DH";
       document.getElementById('total').value=totalRembourse.toFixed(2) + " DH";
-      document.getElementById('TIA').value = document.getElementById("type").value;
+      document.getElementById('TIA').value = document.getElementById("type").value + " %";
       
 
       
