@@ -110,7 +110,22 @@
       
 
       
-      
+      const maxmensuel = salaire * 0.4;
+      const taux = (mensualite / salaire) * 100
+
+      if(mensualite > maxmensuel){
+        resultC.innerHTML=`<div class='text-red-600 flex bg-red-100 border rounded-lg p-3 w-xl'>
+            <img class='mr-2 w-5 h-5' src="imgs/danger.png">
+            <p><span class="font-bold"> Prêt non accessible</span> <br>La mensualité calculée (${mensualite.toFixed(2)} MAD) représente <span class="font-bold"> ${taux.toFixed(2)}% </span> de votre salaire mensuel .<br>
+            Le taux d'endettement dépasse le maximum recommandé de 40%. Nous vous conseillons de réduire le montant du prêt ou d'allonger la durée de remboursement.</p>
+          </div>`;
+      }else{
+        resultC.innerHTML=`<div class='text-green-600 flex bg-green-100 border rounded-lg p-3 w-xl'>
+            <img class='mr-2 w-5 h-5' src="imgs/verifie.png">
+            <p><span class="font-bold"> Prêt accessible</span> <br>Votre taux d'endettement est de <span class="font-bold"> ${taux.toFixed(2)}% </span>.
+            Ce qui reste dans les limites recommandées.</p>
+          </div>`;
+      }
     };
   </script>
 </body>
