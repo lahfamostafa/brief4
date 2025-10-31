@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="src/output.css">
+  <title>Calcul automatique</title>
+
+</head>
+<body class="p-2 m-2">
+
+  
+  <form id="calcForm">
+    <div id="form" class="flex gap-14 justify-center items-center">
+      <div class="mt-10">
+        <div class="px-5 bg-blue-600 rounded-t-lg p-2 w-xl flex">
+          <img class="w-10 mr-2" src="imgs/calculator.png">
+          <h2 class="text-white"><span class="font-bold ">Simulation de prêt</span> <br>Renseignez les informations pour calculer vos mensualités</h2>
+        </div>
+        <div class="grid shadow-2xl gap-3 justify-center items-center p-3 rounded-b-lg w-xl">
+            <select  class="border px-2 py-1 bg-gray-100 rounded-md " id="type">
+                <option value="" disabled selected>-- Choisir un type --</option>
+                <option value="3.5">Maison</option>
+                <option value="4">Appartemant</option>
+                <option value="4.5">Terrain</option>
+                <option value="5.5">Petit entreprise</option>
+                <option value="6.5">Cach personnel</option>
+            </select>
+        
+            <div class="grid gap-1 "><label for="credit">Mantantde pret (Mad) </label>
+            <input class="px-2 py-1 bg-gray-100 rounded-md w-100  " placeholder="Ex: 150000" type="number" min="0" step="10" name="credit" id="mantant" required></div>
+            <div class="grid gap-1 "><label for="duree">Duree du remboursement (en année)</label>
+            <input class="px-2 py-1 bg-gray-100 rounded-md float-end" placeholder="Ex: 2" type="number" min="0" step="1" name="duree" id="duree" required></div>
+            <div class="grid gap-1 "><label for="salaire">Salaire mensuel (Mad) </label>
+            <input class="px-2 py-1 bg-gray-100 rounded-md float-end" placeholder="Ex: 12500" type="number" min="0" step="10" name="salaire" id="salaire" required></div>
+        
+            <button class=" p-2.5 bg-blue-600 text-white rounded-md">Calculer les mensualités</button>      
+            <div id="resultContent" class="max-w-l"></div>
+          </div>
+        </div>
+
+        <!-- résultats f inputs -->
+        
+        <div id="resultat" class="grid gap-1 justify-center items-center mt-10">
+          <div id="resultC"></div>
+          <div class="px-5 bg-green-600 rounded-t-lg p-2 w-xl ">
+            <h2 class="text-white"><span class="font-bold ">Simulation de prêt</span> <br>Renseignez les informations pour calculer vos mensualités</h2>
+          </div>
+          <div class="grid shadow-2xl gap-9 justify-center items-center p-10 rounded-b-lg w-xl">
+            
+            <div class="border border-blue-400 p-5 rounded-lg bg-blue-50 flex items-center "><label>Mensualité</label>
+            <input class="px-2 py-1 rounded-md float-end text-blue-600 text-right text-xl focus:outline-none " id="mensuel" type="text" readonly></div>
+        
+            <div><label>Total des interéts</label>
+            <input  class="px-2 py-1  rounded-md float-end text-red-400 text-right focus:outline-none" id="interet" type="text" readonly></div>
+        
+            <div><label>Mantant total a rembourser</label>
+            <input  class="px-2 py-1  rounded-md float-end text-right focus:outline-none" id="total" type="text" readonly></div>
+
+            <div><label>% Taux d'intérêt appliqué</label>
+            <input  class="px-2 py-1  rounded-md float-end text-right focus:outline-none" id="TIA" type="text" readonly></div>
+          </div>
+  
+      </div>
+    </div>
+
+  <script>
+
+    
+
+    document.getElementById('calcForm').addEventListener("submit" , function(event){
+      event.preventDefault();
+      calcule();
+    })
+
+    function showError(msg){
+      const resultContent = document.getElementById('resultContent');
+      resultContent.innerHTML=`<div class='text-red-600'>${msg}</div> `
+    }
+
+    function calcule(){
+
+      // lire les valeurs
+      const type = parseFloat(document.getElementById("type").value);
+      const credit = parseFloat(document.getElementById("mantant").value);
+      const dureanne = parseFloat(document.getElementById("duree").value);
+      const salaire = parseFloat(document.getElementById("salaire").value);
+      const resultContent = document.getElementById("resultContent");
+      const resultC = document.getElementById("resultC");
+      
+      // checking
+      if(!isFinite(type) || !isFinite(credit) || !isFinite(salaire)|| !isFinite(dureanne)){
+        showError("⚠️ Veuillez remplir correctement tous les champs.");
+        return;
+      }
+
+      // calcule
+      const mensuRate = type / 100 / 12;
+      const dureeMois = dureanne*12 ;
+      const mensualite = credit * mensuRate / (1 - Math.pow(1 + mensuRate , -dureeMois));
+      const totalRembourse = mensualite * dureeMois;
+      const totalInteret = totalRembourse - credit;
+      
+      
+      // affichage
+      document.getElementById('mensuel').value= mensualite.toFixed(2) + " DH";
+      document.getElementById('interet').value= totalInteret.toFixed(2) + " DH";
+      document.getElementById('total').value=totalRembourse.toFixed(2) + " DH";
+      
+
+      
+      
+    };
+  </script>
+</body>
+</html>
